@@ -1,0 +1,242 @@
+/* Reset */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+/* Page Background */
+body{
+    background: linear-gradient(rgba(10, 20, 40, 0.6), rgba(10, 20, 40, 0.8)), url('bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+/* Main Container (Glassmorphism) */
+.container, .dashboard-container, .form-box {
+    width: 90%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 24px 30px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* Dashboard Container Specific */
+.dashboard-container {
+    max-width: 850px;
+    padding: 20px 30px;
+}
+
+/* Main Title */
+h1, h2, .container h1, .container h2, .form-box h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 10px rgba(255, 65, 108, 0.2);
+    letter-spacing: 1px;
+}
+
+/* Subtitle and Text */
+p, label {
+    font-size: 18px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #e0e0e0;
+    display: block;
+}
+
+/* Inputs */
+input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+    padding: 12px 16px;
+    margin: 6px 0 15px 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+    border-color: #ff416c;
+    box-shadow: 0 0 15px rgba(255, 65, 108, 0.5);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Horizontal line */
+hr{
+    margin: 15px 0;
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Section Titles */
+h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: #fca311;
+    font-weight: 700;
+}
+
+/* Dashboard Cards */
+.card {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 15px;
+    border-radius: 14px;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #0cebeb, #20e3b2, #29ffc6);
+    color: #000;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 5px 15px rgba(32, 227, 178, 0.3);
+}
+
+/* Hover Effect */
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(32, 227, 178, 0.6);
+}
+
+.danger-btn {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+}
+
+.danger-btn:hover {
+    box-shadow: 0 10px 25px rgba(255, 65, 108, 0.6);
+}
+
+.small-btn {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 14px;
+    margin: 0;
+    border-radius: 10px;
+    background: #ff416c;
+    color: white;
+}
+
+/* Links */
+a {
+    color: #20e3b2;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #fca311;
+    text-decoration: underline;
+}
+
+/* Candidates Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    text-align: left;
+}
+
+th {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fca311;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+td.vote-count {
+    font-weight: 800;
+    color: #20e3b2;
+    font-size: 22px;
+    text-align: center;
+}
+
+/* Radio buttons for Vote */
+.candidate {
+    background: rgba(0,0,0,0.45);
+    margin: 12px 0;
+    padding: 15px;
+    border-radius: 14px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.candidate:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.02);
+}
+
+.candidate input {
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #ff416c;
+}
+
+.candidate label {
+    margin-bottom: 0;
+    font-size: 20px;
+    cursor: pointer;
+    flex-grow: 1;
+    font-weight: 600;
+}
+
+/* Vote Page Specific Background */
+body.vote-page {
+    background: linear-gradient(rgba(10, 20, 40, 0.4), rgba(10, 20, 40, 0.8)), url('vote-bg.png') no-repeat center center fixed;
+    background-size: cover;
+}

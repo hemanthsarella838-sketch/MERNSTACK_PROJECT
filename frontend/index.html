@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Polling & Voting System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="welcomeMessage()">
+
+<div class="container">
+
+    <!-- Main Title -->
+    <h1 onclick="mainTitleAlert()">🗳 Online Polling & Voting System</h1>
+
+    <p onclick="descriptionAlert()">
+        Secure • Transparent • Easy Voting Platform
+    </p>
+
+    <hr>
+
+    <!-- Voter Section Title -->
+    <h2 onclick="voterTitleAlert()">👥 Voter Section</h2>
+
+    <button onclick="goToVoterRegister()">Voter Register</button>
+    <button onclick="goToVoterLogin()">Voter Login</button>
+
+    <hr>
+
+    <!-- Admin Section Title -->
+    <h2 onclick="adminTitleAlert()">👨‍💼 Admin Section</h2>
+
+    <button onclick="goToAdminRegister()">Admin Register</button>
+    <button onclick="goToAdminLogin()">Admin Login</button>
+
+</div>
+
+<script>
+
+// Welcome Alert
+function welcomeMessage() {
+    alert("👋 Welcome to Online Polling & Voting System");
+}
+
+// Title Alerts
+function mainTitleAlert() {
+    alert("🗳 This is an Online Voting Platform for secure elections.");
+}
+
+function descriptionAlert() {
+    alert("🔐 This system ensures secure and transparent voting.");
+}
+
+function voterTitleAlert() {
+    alert("👥 Voter Section: Register, Login and Cast your Vote.");
+}
+
+function adminTitleAlert() {
+    alert("👨‍💼 Admin Section: Manage Candidates and View Results.");
+}
+
+// Navigation Functions
+function goToVoterRegister() {
+    alert("🔐 Redirecting to Voter Registration Page...");
+    window.location.href = "register.html";
+}
+
+function goToVoterLogin() {
+    alert("🔑 Redirecting to Voter Login Page...");
+    window.location.href = "login.html";
+}
+
+function goToAdminRegister() {
+    alert("👨‍💼 Redirecting to Admin Registration Page...");
+    window.location.href = "admin-register.html";
+}
+
+function goToAdminLogin() {
+    alert("🛡 Redirecting to Admin Login Page...");
+    window.location.href = "admin.html";
+}
+
+</script>
+
+</body>
+</html> 

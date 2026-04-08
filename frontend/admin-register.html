@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Admin Registration</h2>
+
+    <form onsubmit="return adminRegister(event)">
+
+        <label>Admin Username</label>
+        <input type="text" id="regUsername" required>
+
+        <label>Password</label>
+        <input type="password" id="regPassword" required>
+
+        <button type="submit">Register</button>
+
+        <br><br>
+        <a href="index.html" class="nav-link">⬅ Back to Home</a>
+
+    </form>
+</div>
+
+<script>
+async function adminRegister(event) {
+    event.preventDefault();
+
+    let username = document.getElementById("regUsername").value;
+    let password = document.getElementById("regPassword").value;
+
+    if(username === "" || password === "") {
+        alert("⚠ Please fill all fields!");
+        return false;
+    }
+
+    try {
+        const res = await fetch("http://localhost:5001/admin/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+            alert(data.message);
+            window.location.href = "admin.html";
+        } else {
+            alert(data.message || "❌ Registration Failed");
+        }
+    } catch(err) {
+        alert("❌ Request Failed. Ensure backend is running.");
+    }
+    return false;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Online Voting</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container dashboard-container">
+    <h2>Admin Dashboard</h2>
+
+    <!-- Add Candidate Section -->
+    <div class="card">
+        <h3>Add Candidate</h3>
+        <input type="text" id="candidateName" placeholder="Candidate Name">
+        <input type="text" id="partyName" placeholder="Party Name">
+        <button onclick="addCandidate()">Add Candidate</button>
+    </div>
+
+    <!-- View & Manage Candidates -->
+    <div class="card">
+        <h3>Manage Candidates & Vote Count</h3>
+        <button onclick="fetchCandidates()">Refresh Data</button>
+        <div id="candidatesList"></div>
+    </div>
+    
+    <br>
+    <button onclick="logoutAdmin()" class="danger-btn">⬅ Logout</button>
+
+</div>
+
+<script>
+const API_BASE = "http://localhost:5001";
+
+document.addEventListener("DOMContentLoaded", fetchCandidates);
+
+async function fetchCandidates() {
+    try {
+        const response = await fetch(`${API_BASE}/vote/results`);
+        const candidates = await response.json();
+        
+        let html = "<table><tr><th>Candidate</th><th>Party</th><th>Votes</th><th>Actions</th></tr>";
+        candidates.forEach(c => {
+            html += `<tr>
+                <td>${c.name}</td>
+                <td>${c.party}</td>
+                <td class="vote-count">${c.votes}</td>
+                <td>
+                    <button class="small-btn" onclick="deleteCandidate('${c._id}')">Delete</button>
+                </td>
+            </tr>`;
+        });
+        html += "</table>";
+        document.getElementById("candidatesList").innerHTML = html;
+    } catch(err) {
+        document.getElementById("candidatesList").innerHTML = "<p>Error loading data.</p>";
+    }
+}
+
+async function addCandidate() {
+    let name = document.getElementById("candidateName").value;
+    let party = document.getElementById("partyName").value;
+
+    if(name === "" || party === "") {
+        alert("⚠ Please enter candidate and party name!");
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_BASE}/admin/add-candidate`, {
+            method: "POST",
+            headers: { "Content-Type" : "application/json" },
+            body: JSON.stringify({ name, party })
+        });
+        const data = await res.json();
+        if(res.ok) {
+            alert(data.message);
+            document.getElementById("candidateName").value = '';
+            document.getElementById("partyName").value = '';
+            fetchCandidates();
+        } else {
+            alert(data.message);
+        }
+    } catch(err) {
+        alert("❌ Request Failed");
+    }
+}
+
+async function deleteCandidate(id) {
+    if(!confirm("Are you sure you want to delete this candidate?")) return;
+    try {
+        const res = await fetch(`${API_BASE}/admin/delete-candidate/${id}`, {
+            method: "DELETE"
+        });
+        const data = await res.json();
+        alert(data.message);
+        fetchCandidates();
+    } catch(err) {
+        alert("❌ Request Failed");
+    }
+}
+
+function logoutAdmin() {
+    localStorage.removeItem("adminId");
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cast Your Vote</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="vote-page">
+
+<div class="form-box">
+    <h2>Cast Your Vote</h2>
+
+    <form id="voteForm" onsubmit="submitVote(event)">
+        <div id="candidatesList">
+            <!-- Dynamically populated candidates -->
+            <p>Loading candidates...</p>
+        </div>
+
+        <button type="submit">Submit Vote</button>
+    </form>
+
+    <a href="index.html" onclick="localStorage.removeItem('userId')">Logout</a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", loadCandidates);
+
+async function loadCandidates() {
+    try {
+        const response = await fetch("http://localhost:5001/vote/results");
+        const candidates = await response.json();
+        
+        const candidatesList = document.getElementById("candidatesList");
+        candidatesList.innerHTML = "";
+        
+        candidates.forEach(candidate => {
+            candidatesList.innerHTML += `
+                <div class="candidate">
+                    <input type="radio" name="candidate" value="${candidate._id}" required>
+                    <label>${candidate.name} - ${candidate.party}</label>
+                </div>
+            `;
+        });
+    } catch (error) {
+        document.getElementById("candidatesList").innerHTML = "<p>Error loading candidates.</p>";
+        console.error("Error loading candidates:", error);
+    }
+}
+
+async function submitVote(event) {
+    event.preventDefault();
+    const selectedCandidate = document.querySelector('input[name="candidate"]:checked');
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        alert("You must be logged in to vote!");
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (!selectedCandidate) {
+        alert("Please select a candidate!");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:5001/vote/vote", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ candidateId: selectedCandidate.value, userId })
+        });
+        
+        const data = await response.json();
+        alert(data.message);
+        
+        if (data.message === "✅ Vote Cast Successfully") {
+            window.location.href = "index.html";
+        }
+    } catch (error) {
+        console.error("Error submitting vote:", error);
+        alert("Vote failed. Ensure backend is running.");
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Admin Authentication Module</h2>
+
+    <form onsubmit="return adminLogin(event)">
+
+        <label>Admin Username</label>
+        <input type="text" id="loginUsername" placeholder="Enter Admin Username" required>
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter Password" required>
+
+        <button type="submit">Login</button>
+
+        <br><br>
+        <button type="button" class="nav-btn" onclick="goHome()">Back to Home</button>
+
+    </form>
+</div>
+
+<script>
+
+async function adminLogin(event) {
+    event.preventDefault();
+
+    let username = document.getElementById("loginUsername").value;
+    let password = document.getElementById("loginPassword").value;
+
+    if(username === "" || password === "") {
+        alert("⚠ Please enter both Username and Password!");
+        return false;
+    }
+
+    try {
+        const res = await fetch("http://localhost:5001/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.message.includes("Successful")) {
+            alert(data.message);
+            localStorage.setItem("adminId", data.adminId);
+            window.location.href = "admin-dashboard.html";
+        } else {
+            alert(data.message || "❌ Invalid Admin Credentials!");
+        }
+    } catch(err) {
+        alert("❌ Request Failed. Ensure backend is running.");
+    }
+    return false;
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

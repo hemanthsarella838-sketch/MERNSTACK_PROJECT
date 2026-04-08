@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Voter Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="form-box">
+        <h2>Voter Registration</h2>
+
+        <form id="registerForm" onsubmit="registerUser(event)">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="text" id="voterId" placeholder="Voter ID" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <a href="index.html">← Back to Home</a>
+    </div>
+
+    <script>
+        async function registerUser(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const voterId = document.getElementById("voterId").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:5001/user/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, voterId, email, password })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+
+                if (data.message === "✅ Voter Registered Successfully") {
+                    window.location.href = "login.html";
+                }
+            } catch (error) {
+                console.error("Error signing up:", error);
+                alert("Registration failed. Ensure backend is running.");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
